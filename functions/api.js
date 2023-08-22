@@ -7,7 +7,7 @@ const http = require("http");
 // Replace if using a different env file or config
 const env = require("dotenv").config({path: "./.env"});
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+const stripe = require("stripe")("sk_test_51KrFMWBn872em2Ejaw3CE91glz6mSKhrqDwA0z3mg5OGxmQm5ktiYwkd5CRYMvBoenszzCixeZai6zPiyw0fdr0R00OpMhHBOA", {
     apiVersion: "2022-08-01",
 });
 
@@ -19,7 +19,7 @@ router.get("/", (req, res) => {
 
 router.get("/config", (req, res) => {
     res.send({
-        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+        publishableKey: 'pk_test_51KrFMWBn872em2EjlvfsQ2ZyniEkdnt4Origm4KO2NSQgXrANifdIKlrUATJHhLT2YigmrxOW3cDLHL6AXMSTZ2M00pRJ0GltM',
     });
 });
 
