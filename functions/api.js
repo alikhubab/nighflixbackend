@@ -4,6 +4,7 @@ const api = express();
 const router = express.Router();
 const {resolve} = require("path");
 const http = require("http");
+require("../startup/cors")()
 // Replace if using a different env file or config
 const env = require("dotenv").config({path: "./.env"});
 
