@@ -17,6 +17,14 @@ router.get("/", (req, res) => {
     res.status(200).send("Hello from Stripe server!!")
 });
 
+router.post("/addStripeCustomer", async (req, res) => {
+    const {email, name} = req.body;
+    const {id} = await stripe.customers.create({
+        email,
+        name
+    })
+    res.status(200).send({id, name , email})
+})
 router.get("/config", (req, res) => {
     res.send({
         publishableKey: 'pk_test_51KrFMWBn872em2EjlvfsQ2ZyniEkdnt4Origm4KO2NSQgXrANifdIKlrUATJHhLT2YigmrxOW3cDLHL6AXMSTZ2M00pRJ0GltM',
