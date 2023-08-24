@@ -4,7 +4,8 @@ const api = express();
 const router = express.Router();
 const {resolve} = require("path");
 const http = require("http");
-require("../startup/cors")()
+require("../startup/cors")(router)
+
 // Replace if using a different env file or config
 const env = require("dotenv").config({path: "./.env"});
 
@@ -19,7 +20,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/addStripeCustomer", async (req, res) => {
-    const {email, name} = req.body;
+    const {email, name} = JSON.parse(req.body);
     const {id} = await stripe.customers.create({
         email,
         name
@@ -31,6 +32,24 @@ router.get("/config", (req, res) => {
         publishableKey: 'pk_test_51KrFMWBn872em2EjlvfsQ2ZyniEkdnt4Origm4KO2NSQgXrANifdIKlrUATJHhLT2YigmrxOW3cDLHL6AXMSTZ2M00pRJ0GltM',
     });
 });
+
+
+router.post("/createStripeSession", async (req, res) => {
+    const {priceId, successUrl, customerId} = JSON.parse(req.body)
+
+    const session = await stripe.checkout.sessions.create({
+        success_url: successUrl,
+        cancel_url: successUrl,
+        line_items: [
+            {price: priceId, quantity: 1},
+        ],
+        mode: 'subscription',
+        customer: customerId
+    });
+
+    res.status(200).send(session)
+})
+
 
 router.post("/create-payment-intent", async (req, res) => {
     try {
